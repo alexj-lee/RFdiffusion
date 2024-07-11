@@ -42,6 +42,11 @@ def main(conf: HydraConfig) -> None:
     if conf.inference.deterministic:
         make_deterministic()
 
+    num_threads = getattr(conf, 'num_threads', None)
+    if num_threads is not None:
+        torch.set_num_threads(num_threads)
+    # if didn't get anything, just move on.
+    
     # Initialize sampler and target/contig.
     sampler = iu.sampler_selector(conf)
 
